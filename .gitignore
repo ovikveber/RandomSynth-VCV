@@ -1,0 +1,10 @@
+build/
+dist/
+*.dll
+*.so
+*.dylib
+*.vcvplugin
+*.o
+*.d
+.DS_Store
+Thumbs.db
