@@ -51,8 +51,7 @@ constexpr float fineLabelY = 330.0f;
 
 constexpr float knobX[10] { 58.0f, 118.0f, 226.0f, 288.0f, 350.0f,
                             412.0f, 474.0f, 526.0f, 572.0f, 618.0f };
-constexpr float jackX[4] { 97.5f, 252.5f, 407.5f, 562.5f };
-constexpr float panX = 618.0f;
+constexpr float jackX[5] { 66.0f, 198.0f, 330.0f, 462.0f, 594.0f };
 
 NVGcolor kindColour (int kind)
 {
@@ -427,9 +426,8 @@ struct PanelBackground : widget::Widget
                 nvgText (vg, knobX[i], knobLabelY, labels[i], nullptr);
 
             const char* outLabels[] { "V/OCT", "GATE", "TRIG", "FX", "PAN" };
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < 5; ++i)
                 nvgText (vg, jackX[i], jackLabelY, outLabels[i], nullptr);
-            nvgText (vg, panX, jackLabelY, outLabels[4], nullptr);
         }
     }
 
@@ -674,7 +672,7 @@ struct RandomSynthWidget : ModuleWidget
                                                      RandomSynth::TRIG_OUTPUT));
         addOutput (createOutputCentered<PJ301MPort> (Vec (jackX[3], jackY), module,
                                                      RandomSynth::FX_OUTPUT));
-        addOutput (createOutputCentered<PJ301MPort> (Vec (panX, jackY), module,
+        addOutput (createOutputCentered<PJ301MPort> (Vec (jackX[4], jackY), module,
                                                      RandomSynth::PAN_OUTPUT));
     }
 };
