@@ -31,7 +31,7 @@ https://github.com/ovikveber/RandomSynth
 - 场地缩放、小球大小、小球速度、水波速度、水波范围
 - 附近小球之间会共享速度
 - Booster 加速器
-- 输出：**V/OCT**、**GATE**、**TRIG**、**FX**
+- 输出：**V/OCT**、**GATE**、**TRIG**、**FX**、**PAN**（-5V…+5V，随小球 X 位置）
 
 ### 安装
 
@@ -93,7 +93,7 @@ https://github.com/ovikveber/RandomSynth
 - Field scale, ball size, ball speed, wave speed, wave range
 - Speed sharing between nearby balls
 - Booster objects that kick balls on contact
-- Outputs: **V/OCT**, **GATE**, **TRIG**, **FX**
+- Outputs: **V/OCT**, **GATE**, **TRIG**, **FX**, **PAN** (-5 V…+5 V, from ball X position)
 
 ### Installation
 

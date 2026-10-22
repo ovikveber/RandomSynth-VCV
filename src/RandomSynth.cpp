@@ -52,6 +52,7 @@ constexpr float fineLabelY = 330.0f;
 constexpr float knobX[10] { 58.0f, 118.0f, 226.0f, 288.0f, 350.0f,
                             412.0f, 474.0f, 526.0f, 572.0f, 618.0f };
 constexpr float jackX[4] { 97.5f, 252.5f, 407.5f, 562.5f };
+constexpr float panX = 618.0f;
 
 NVGcolor kindColour (int kind)
 {
@@ -115,6 +116,7 @@ struct RandomSynth : Module
         GATE_OUTPUT,
         TRIG_OUTPUT,
         FX_OUTPUT,
+        PAN_OUTPUT,
         NUM_OUTPUTS
     };
 
@@ -155,6 +157,7 @@ struct RandomSynth : Module
         configOutput (GATE_OUTPUT, "Gate");
         configOutput (TRIG_OUTPUT, "Trigger");
         configOutput (FX_OUTPUT, "FX send");
+        configOutput (PAN_OUTPUT, "Pan");
 
         world.reset();
     }
@@ -207,6 +210,7 @@ struct RandomSynth : Module
                                          0.05f, 2.5f);
         pitchVolts = (ev.note - 60.0f) / 12.0f;
         fxVolts = ev.send * 10.0f;
+        panVolts = ev.pan * 5.0f;
         gateHigh = true;
         trigHigh = true;
         gateSamples = gateSeconds * sampleRate;
@@ -215,6 +219,7 @@ struct RandomSynth : Module
         outputs[GATE_OUTPUT].setVoltage (10.0f);
         outputs[TRIG_OUTPUT].setVoltage (10.0f);
         outputs[FX_OUTPUT].setVoltage (fxVolts);
+        outputs[PAN_OUTPUT].setVoltage (panVolts);
     }
 
     void process (const ProcessArgs& args) override
@@ -297,6 +302,7 @@ struct RandomSynth : Module
     float trigSamples = 0.0f;
     float pitchVolts = 0.0f;
     float fxVolts = 0.0f;
+    float panVolts = 0.0f;
     bool gateHigh = false;
     bool trigHigh = false;
     int snapshotCounter = 0;
@@ -420,9 +426,10 @@ struct PanelBackground : widget::Widget
             for (int i = 0; i < 10; ++i)
                 nvgText (vg, knobX[i], knobLabelY, labels[i], nullptr);
 
-            const char* outLabels[] { "V/OCT", "GATE", "TRIG", "FX" };
+            const char* outLabels[] { "V/OCT", "GATE", "TRIG", "FX", "PAN" };
             for (int i = 0; i < 4; ++i)
                 nvgText (vg, jackX[i], jackLabelY, outLabels[i], nullptr);
+            nvgText (vg, panX, jackLabelY, outLabels[4], nullptr);
         }
     }
 
@@ -667,6 +674,8 @@ struct RandomSynthWidget : ModuleWidget
                                                      RandomSynth::TRIG_OUTPUT));
         addOutput (createOutputCentered<PJ301MPort> (Vec (jackX[3], jackY), module,
                                                      RandomSynth::FX_OUTPUT));
+        addOutput (createOutputCentered<PJ301MPort> (Vec (panX, jackY), module,
+                                                     RandomSynth::PAN_OUTPUT));
     }
 };
 
