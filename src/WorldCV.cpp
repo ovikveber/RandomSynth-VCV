@@ -1081,7 +1081,9 @@ void World::updateWaves (float dt)
             }
         }
 
-        if (! w.reflected && w.age > 0.1f && w.generation < 2)
+        // Only the initial wave may spawn one child wave from a wall.
+        // Child waves expand but never spawn further generations.
+        if (! w.reflected && w.age > 0.1f && w.generation == 0)
         {
             std::vector<const Segment*> hits;
             for (const auto& s : segments)
@@ -1114,9 +1116,8 @@ void World::updateWaves (float dt)
                         chosen.push_back (ang);
                         pendingWaves.push_back ({ s->mid, w.prop, w.amp * 0.52f, w.generation + 1 });
                         addSparks (s->mid, w.prop, 3, 70.0f);
+                        break; // at most one child wave per initial wave
                     }
-                    if (chosen.size() >= 2)
-                        break;
                 }
             }
         }
