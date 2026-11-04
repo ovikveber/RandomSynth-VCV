@@ -677,4 +677,4 @@ struct RandomSynthWidget : ModuleWidget
     }
 };
 
-Model* modelRandomSynth = createModel<RandomSynth, RandomSynthWidget> ("RandomSynth");
+Model* modelRandomSynth = createModel<RandomSynth, RandomSynthWidget> ("OVRandom");

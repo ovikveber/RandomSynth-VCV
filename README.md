@@ -1,4 +1,4 @@
-# OV RandomSynth (VCV Rack)
+# OV Random (VCV Rack)
 
 **语言 / Language:** [中文](#zh) | [English](#en)
 
@@ -9,6 +9,8 @@
 ## 中文
 
 一个**粒子碰撞驱动的 VCV Rack 生成式音序器**。
+
+本模块属于 **OV Modular** 插件系列（plugin slug `OVModular`），模块名为 **OV Random**。
 
 小球在封闭场地内运动、碰撞。每次碰撞都会交换音高、包络和效果属性，生成波、场和火花，并输出 V/OCT、GATE、TRIG、FX 和 PAN 信号。PAN 取触发小球的 X 位置（-5V…+5V）。它不是固定序列，而是持续变化、随机但不会跑调的生成式音乐。
 
@@ -73,6 +75,8 @@ GPL-3.0-or-later，见 [LICENSE](LICENSE)。
 ## English
 
 A **particle-collision generative sequencer for VCV Rack**.
+
+This module is part of the **OV Modular** plugin collection (plugin slug `OVModular`); the module is named **OV Random**.
 
 Balls move and collide inside a bounded field. Each collision exchanges pitch, envelope and effect properties, spawns waves/fields/sparks, and outputs V/OCT, GATE, TRIG, FX and PAN CV. PAN follows the triggering ball's X position (-5 V…+5 V). It is not a fixed sequence but an endlessly evolving, random yet tonal stream of generative music.
 
