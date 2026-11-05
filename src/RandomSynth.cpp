@@ -401,7 +401,7 @@ struct PanelBackground : widget::Widget
             nvgTextAlign (vg, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);
             nvgFontSize (vg, 15.0f);
             nvgFillColor (vg, accentColour);
-            nvgText (vg, 20.0f, 15.0f, "OV  RANDOM SYNTH", nullptr);
+            nvgText (vg, 20.0f, 15.0f, "OV  RANDOM", nullptr);
 
             nvgFontSize (vg, 10.0f);
             nvgFillColor (vg, dimColour);
@@ -441,6 +441,12 @@ struct WorldDisplay : widget::TransparentWidget
     {
         box.pos = pos;
         box.size = size;
+
+        if (module == nullptr)
+        {
+            World previewWorld;
+            previewWorld.fillSnapshot (preview);
+        }
     }
 
     void draw (const DrawArgs& args) override
@@ -457,10 +463,12 @@ struct WorldDisplay : widget::TransparentWidget
         nvgStrokeWidth (vg, 1.0f);
         nvgStroke (vg);
 
-        if (module == nullptr)
-            return;
-
         Snapshot view;
+        if (module == nullptr)
+        {
+            view = preview;
+        }
+        else
         {
             std::lock_guard<std::mutex> lock (module->snapshotMutex);
             view = module->snapshot;
@@ -587,7 +595,7 @@ struct WorldDisplay : widget::TransparentWidget
             nvgStroke (vg);
         }
 
-        if (font)
+        if (font && module != nullptr)
         {
             nvgFontFaceId (vg, font->handle);
             nvgFontSize (vg, 10.0f);
@@ -616,6 +624,7 @@ struct WorldDisplay : widget::TransparentWidget
 
     RandomSynth* module = nullptr;
     std::shared_ptr<Font> font;
+    Snapshot preview;
 };
 
 struct RandomSynthWidget : ModuleWidget
@@ -631,9 +640,8 @@ struct RandomSynthWidget : ModuleWidget
         panel->box.size = box.size;
         addChild (panel);
 
-        if (module != nullptr)
-            addChild (new WorldDisplay (module, Vec (displayX, displayY),
-                                        Vec (displayW, displayH), font));
+        addChild (new WorldDisplay (module, Vec (displayX, displayY),
+                                    Vec (displayW, displayH), font));
 
         auto* shapeButton = new ActionButton (Vec (jackX[0] - buttonW * 0.5f, buttonY),
                                               Vec (buttonW, buttonH), "SHAPE", font,
@@ -677,4 +685,4 @@ struct RandomSynthWidget : ModuleWidget
     }
 };
 
-Model* modelRandomSynth = createModel<RandomSynth, RandomSynthWidget> ("OVRandom");
+Model* modelRandomSynth = createModel<RandomSynth, RandomSynthWidget> ("Random");

@@ -1,7 +1,7 @@
 {
-  "slug": "OVModular",
-  "name": "OV Modular",
-  "version": "2.0.2",
+  "slug": "OV",
+  "name": "OV",
+  "version": "2.0.3",
   "license": "GPL-3.0-or-later",
   "brand": "OV",
   "author": "OV",
@@ -12,8 +12,8 @@
   "minRackVersion": "2.6.0",
   "modules": [
     {
-      "slug": "OVRandom",
-      "name": "OV Random",
+      "slug": "Random",
+      "name": "Random",
       "description": "Particle-collision sequencer with quantized pitch, microtonal scales, gates, triggers and FX CV",
       "tags": ["Sequencer", "Random", "Visual", "Physical modeling"],
       "keywords": "particle collision generative random sequencer microtonal EDO scale quantizer"
