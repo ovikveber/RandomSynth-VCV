@@ -634,14 +634,16 @@ struct RandomSynthWidget : ModuleWidget
         setModule (module);
         box.size = Vec (panelW, panelH);
 
-        const auto font = APP->window->loadFont (asset::system ("res/fonts/NotoSansSC-Medium.otf"));
+        if (APP->window)
+            font = APP->window->loadFont (asset::system ("res/fonts/NotoSansSC-Medium.otf"));
 
-        auto* panel = new PanelBackground (font);
+        panel = new PanelBackground (font);
         panel->box.size = box.size;
         addChild (panel);
 
-        addChild (new WorldDisplay (module, Vec (displayX, displayY),
-                                    Vec (displayW, displayH), font));
+        display = new WorldDisplay (module, Vec (displayX, displayY),
+                                    Vec (displayW, displayH), font);
+        addChild (display);
 
         auto* shapeButton = new ActionButton (Vec (jackX[0] - buttonW * 0.5f, buttonY),
                                               Vec (buttonW, buttonH), "SHAPE", font,
@@ -659,6 +661,8 @@ struct RandomSynthWidget : ModuleWidget
         addChild (resetButton);
         addChild (addButton);
         addChild (boostButton);
+
+        buttons = { shapeButton, resetButton, addButton, boostButton };
 
         const std::array<int, 10> paramIds { RandomSynth::SCALE_PARAM, RandomSynth::PITCH_RANGE_PARAM,
                                              RandomSynth::FIELD_PARAM, RandomSynth::BALL_PARAM,
@@ -683,6 +687,27 @@ struct RandomSynthWidget : ModuleWidget
         addOutput (createOutputCentered<PJ301MPort> (Vec (jackX[4], jackY), module,
                                                      RandomSynth::PAN_OUTPUT));
     }
+
+    void draw (const DrawArgs& args) override
+    {
+        if (!font && APP->window)
+        {
+            font = APP->window->loadFont (asset::system ("res/fonts/NotoSansSC-Medium.otf"));
+            if (font)
+            {
+                panel->font = font;
+                display->font = font;
+                for (auto* button : buttons)
+                    button->font = font;
+            }
+        }
+        ModuleWidget::draw (args);
+    }
+
+    std::shared_ptr<Font> font;
+    PanelBackground* panel = nullptr;
+    WorldDisplay* display = nullptr;
+    std::array<ActionButton*, 4> buttons {};
 };
 
 Model* modelRandomSynth = createModel<RandomSynth, RandomSynthWidget> ("Random");
